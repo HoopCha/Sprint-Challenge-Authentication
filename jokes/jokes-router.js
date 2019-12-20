@@ -1,8 +1,10 @@
 const axios = require('axios');
 
+const authCheck = require('../auth/authenticate-middleware.js')
+
 const router = require('express').Router();
 
-router.get('/', (req, res) => {
+router.get('/', authCheck, (req, res) => {
   const requestOptions = {
     headers: { accept: 'application/json' },
   };
@@ -13,7 +15,7 @@ router.get('/', (req, res) => {
       res.status(200).json(response.data.results);
     })
     .catch(err => {
-      res.status(500).json({ message: 'Error Fetching Jokes', error: err });
+      res.status(500).json({ message: 'Error Getting Dad Jokes', error: err });
     });
 });
 
