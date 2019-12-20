@@ -34,16 +34,22 @@ router.post('/login', (req, res) => {
     })
 });
 
-router.get('/logout', (req, res) => {
-  if (req.session) {
-    req.session.destroy(err => {
-      if (err) {
-        res.send('error destroying your session, your stuck here forever')
+router.get("/logout", (req, res) => {
+  if (req.session && req.session.name) {
+    req.session.destroy(error => {
+      if (error) {
+        res.status(500).json({
+          message:
+            "you can checkout any time you like, but you can never leave!!!!!",
+        });
       } else {
-        res.send('User logged out')
+        res.status(200).json({ message: "logged out" });
       }
-    })
+    });
+  } else {
+    res.status(201).json({ message: "already logged out" });
   }
-})
+});
+
 
 module.exports = router;

@@ -74,4 +74,28 @@ describe('server.js', () => {
       })
     })
   })
+
+  describe('logout route', () => {
+    it('should send  201 if already logged out', () => {
+      return request(server)
+        .get('/api/auth/logout')
+        .then(res => expect(res.status).toBe(201))
+    })
+
+    it('should send status code 200 if successful logout', () => {
+      request(server)
+      .post('/api/auth/register')
+      .send({username:"chase", password:"pass"})
+      .then(res => {
+        request(server)
+        .post('/api/auth/login')
+        .send({username:"chase", password:"pass"})
+        .then(res2 => {
+          request(server)
+          .get('/api/auth/logout')
+          .then(res3 => expect(res3.status).toBe(200))
+        })
+      })
+    })
+  })
 })
